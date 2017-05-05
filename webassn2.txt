@@ -1,0 +1,62 @@
+1) Exploring DBPedia: Find me 50 example concepts in the DBPedia dataset.
+
+	SELECT DISTINCT ?concept
+	WHERE {
+	    ?s a ?concept .
+	} 
+	LIMIT 50
+
+
+2) SPARQL query to understand the class type of the resource identifying Sachin Tendulkar
+	SELECT * WHERE 
+	{
+	:Sachin_Tendulkar a ?class_type.
+	}
+
+3) SPARQL query to find out all the properties used to describe Sachin Tendulkar.
+
+	SELECT * WHERE 
+	{
+	:Sachin_Tendulkar ?propertyName ?propertyValue.
+	}
+
+
+4) Find all the Cricket players who are from the same country as Sachin_Tendulkar.
+
+	SELECT ?someone ?birthPlace
+	WHERE 
+	{
+	:Sachin_Tendulkar dbpedia:birthPlace ?birthPlace.
+	?someone a dbpedia:CricketPlayer.
+	?someone dbpedia:birthPlace ?birthPlace.
+	}
+
+5) Retrieve the second page of names and emails of people in Tim Berners-Lee's 
+
+	SELECT ?name ?email
+	FROM <http://www.w3.org/People/Berners-Lee/card>
+	WHERE {
+	    {
+	      SELECT DISTINCT ?person ?name WHERE { 
+        	?person foaf:name ?name 
+	      } ORDER BY ?name LIMIT 10 OFFSET 10
+	    }
+	    OPTIONAL { ?person foaf:mbox ?email }
+	}
+
+6) Find me countries with 'Republic' in their name that were established before 1920.
+
+	PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+		PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>        
+	PREFIX type: <http://dbpedia.org/class/yago/>
+	PREFIX prop: <http://dbpedia.org/property/>
+	SELECT ?lbl ?est
+	WHERE {
+	  ?country rdfs:label ?lbl .
+	  FILTER(bif:contains(?lbl, "Republic")) .
+	  ?country a type:Country108544813 ;
+	      prop:establishedDate ?est .
+	  FILTER(?est < "1920-01-01"^^xsd:date) .
+	}
+
+ 

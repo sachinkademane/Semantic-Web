@@ -1,0 +1,3 @@
+link to dbpedia snorql : http://dbpedia.org/snorql/
+
+link to sachin tendulkars info : http://dbpedia.org/page/Sachin_Tendulkar
